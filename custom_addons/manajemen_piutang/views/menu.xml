@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_manajemen_piutang_root" 
+              name="Manajemen Piutang" 
+              sequence="10"/>
+
+    <menuitem id="menu_piutang_tagihan" 
+              name="Tagihan &amp; Dasbor" 
+              parent="menu_manajemen_piutang_root" 
+              action="action_manajemen_tagihan" 
+              sequence="10"/>
+
+    <menuitem id="menu_piutang_konsumen" 
+              name="Data Konsumen" 
+              parent="menu_manajemen_piutang_root" 
+              action="action_manajemen_konsumen" 
+              groups="manajemen_piutang.group_spesialis_pendapatan,manajemen_piutang.group_manajer_keuangan"
+              sequence="20"/>
+
+    <menuitem id="menu_piutang_kunjungan" 
+              name="Eskalasi Lapangan" 
+              parent="menu_manajemen_piutang_root" 
+              action="action_manajemen_kunjungan" 
+              groups="manajemen_piutang.group_staff_penagihan,manajemen_piutang.group_manajer_keuangan"
+              sequence="30"/>
+
+    <menuitem id="menu_piutang_laporan" 
+              name="Pelaporan" 
+              parent="menu_manajemen_piutang_root" 
+              action="action_manajemen_laporan" 
+              groups="manajemen_piutang.group_manajer_keuangan,manajemen_piutang.group_direktur_utama" 
+              sequence="40"/>
+
+    <menuitem id="menu_piutang_pengaturan" 
+              name="Pengaturan Sistem" 
+              parent="menu_manajemen_piutang_root" 
+              action="action_manajemen_pengaturan" 
+              groups="manajemen_piutang.group_administrator_sistem,manajemen_piutang.group_manajer_keuangan"
+              sequence="90"/>
+</odoo>

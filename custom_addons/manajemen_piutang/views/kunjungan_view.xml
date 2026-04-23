@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_manajemen_kunjungan_tree" model="ir.ui.view">
+        <field name="name">manajemen.kunjungan.tree</field>
+        <field name="model">manajemen_piutang.kunjungan</field>
+        <field name="arch" type="xml">
+            <tree string="Daftar Kunjungan Fisik">
+                <field name="tagihan_id"/>
+                <field name="nama_staf"/>
+                <field name="tgl_kunjungan"/>
+                <field name="status_kunjungan"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_manajemen_kunjungan_form" model="ir.ui.view">
+        <field name="name">manajemen.kunjungan.form</field>
+        <field name="model">manajemen_piutang.kunjungan</field>
+        <field name="arch" type="xml">
+            <form string="Input Laporan Kunjungan">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="tagihan_id" options="{'no_create': True}"/>
+                            <field name="nama_staf"/>
+                        </group>
+                        <group>
+                            <field name="tgl_kunjungan"/>
+                            <field name="status_kunjungan"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="hasil_kunjungan" placeholder="Kesimpulan singkat (Misal: Janji bayar besok, Rumah kosong, dll)"/>
+                        <field name="catatan" placeholder="Detail kronologi negosiasi..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_manajemen_kunjungan" model="ir.actions.act_window">
+        <field name="name">Eskalasi Penagihan</field>
+        <field name="res_model">manajemen_piutang.kunjungan</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

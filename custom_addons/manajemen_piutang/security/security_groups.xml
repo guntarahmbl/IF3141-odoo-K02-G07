@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="module_category_manajemen_piutang" model="ir.module.category">
+            <field name="name">Manajemen Piutang &amp; Invoicing</field>
+        </record>
+
+        <record id="group_spesialis_pendapatan" model="res.groups">
+            <field name="name">Spesialis Pendapatan</field>
+            <field name="category_id" ref="module_category_manajemen_piutang"/>
+        </record>
+
+        <record id="group_manajer_keuangan" model="res.groups">
+            <field name="name">Manajer Keuangan</field>
+            <field name="category_id" ref="module_category_manajemen_piutang"/>
+            <field name="implied_ids" eval="[(4, ref('group_spesialis_pendapatan'))]"/>
+        </record>
+
+        <record id="group_staff_penagihan" model="res.groups">
+            <field name="name">Staff Penagihan Piutang</field>
+            <field name="category_id" ref="module_category_manajemen_piutang"/>
+        </record>
+
+        <record id="group_direktur_utama" model="res.groups">
+            <field name="name">Direktur Utama</field>
+            <field name="category_id" ref="module_category_manajemen_piutang"/>
+        </record>
+
+        <record id="group_administrator_sistem" model="res.groups">
+            <field name="name">Administrator Sistem</field>
+            <field name="category_id" ref="module_category_manajemen_piutang"/>
+            <field name="implied_ids" eval="[
+                (4, ref('group_manajer_keuangan')), 
+                (4, ref('group_staff_penagihan')), 
+                (4, ref('group_direktur_utama')), 
+                (4, ref('base.group_system'))
+            ]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+    </data>
+</odoo>

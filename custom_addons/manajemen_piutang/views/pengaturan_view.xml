@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_piutang" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.piutang</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Manajemen Piutang" string="Manajemen Piutang" name="manajemen_piutang">
+                    <block title="Parameter Penagihan &amp; Otomatisasi" name="penagihan_setting_container">
+                        <setting id="hari_toleransi_setting" string="Batas Toleransi Eskalasi" help="Jumlah hari setelah jatuh tempo sebelum tagihan masuk ke daftar eskalasi fisik staf lapangan.">
+                            <field name="hari_toleransi_eskalasi"/>
+                        </setting>
+                        <setting id="template_wa_setting" string="Template Pesan WhatsApp" help="Gunakan tag {nama} dan {nominal} untuk parameter otomatis.">
+                            <field name="template_pesan_wa" widget="text"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_manajemen_pengaturan" model="ir.actions.act_window">
+        <field name="name">Pengaturan Piutang</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="res_config_settings_view_form_piutang"/>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'manajemen_piutang'}</field>
+    </record>
+</odoo>

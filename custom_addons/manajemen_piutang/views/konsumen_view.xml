@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_manajemen_konsumen_tree" model="ir.ui.view">
+        <field name="name">manajemen.konsumen.tree</field>
+        <field name="model">manajemen_piutang.konsumen</field>
+        <field name="arch" type="xml">
+            <tree string="Daftar Konsumen">
+                <field name="nama_pelanggan"/>
+                <field name="no_wa"/>
+                <field name="tipe_pelanggan"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_manajemen_konsumen_form" model="ir.ui.view">
+        <field name="name">manajemen.konsumen.form</field>
+        <field name="model">manajemen_piutang.konsumen</field>
+        <field name="arch" type="xml">
+            <form string="Form Konsumen">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="nama_pelanggan" placeholder="Nama Pelanggan"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="no_wa" placeholder="Contoh: +62812..."/>
+                            <field name="tipe_pelanggan"/>
+                        </group>
+                        <group>
+                            <field name="alamat"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_manajemen_konsumen" model="ir.actions.act_window">
+        <field name="name">Konsumen</field>
+        <field name="res_model">manajemen_piutang.konsumen</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

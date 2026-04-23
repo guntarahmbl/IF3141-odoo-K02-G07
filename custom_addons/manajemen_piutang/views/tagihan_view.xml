@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_manajemen_tagihan_tree" model="ir.ui.view">
+        <field name="name">manajemen.tagihan.tree</field>
+        <field name="model">manajemen_piutang.tagihan</field>
+        <field name="arch" type="xml">
+            <tree string="Daftar Tagihan" decoration-danger="status_lunas=='belum_lunas'" decoration-success="status_lunas=='lunas'">
+                <field name="konsumen_id"/>
+                <field name="tgl_terbit"/>
+                <field name="tgl_jatuh_tempo"/>
+                <field name="total_tagihan" sum="Total Piutang"/>
+                <field name="status_lunas" widget="badge" decoration-success="status_lunas == 'lunas'" decoration-danger="status_lunas == 'belum_lunas'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_manajemen_tagihan_form" model="ir.ui.view">
+        <field name="name">manajemen.tagihan.form</field>
+        <field name="model">manajemen_piutang.tagihan</field>
+        <field name="arch" type="xml">
+            <form string="Form Tagihan">
+                <header>
+                    <button name="generateInvoice" string="Kirim E-Invoice" type="object" class="oe_highlight" invisible="status_lunas == 'lunas'"/>
+                    <field name="status_lunas" widget="statusbar" statusbar_visible="belum_lunas,lunas"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="konsumen_id"/>
+                            <field name="tgl_terbit"/>
+                        </group>
+                        <group>
+                            <field name="tgl_jatuh_tempo"/>
+                            <field name="total_tagihan"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Rincian Item">
+                            <field name="rincian_item" placeholder="Detail pesanan..."/>
+                        </page>
+                        <page string="Link Pembayaran">
+                            <field name="link_payment" widget="url"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_manajemen_tagihan" model="ir.actions.act_window">
+        <field name="name">Tagihan &amp; Piutang</field>
+        <field name="res_model">manajemen_piutang.tagihan</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
