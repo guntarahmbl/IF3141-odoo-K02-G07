@@ -14,3 +14,13 @@ class ResConfigSettings(models.TransientModel):
         config_parameter='manajemen_piutang.template_pesan_wa',
         default='Halo {nama}, tagihan Anda sebesar Rp {nominal} telah jatuh tempo. Mohon segera melakukan pelunasan.'
     )
+
+    xendit_secret_api_key = fields.Char(
+        string='Xendit Secret API Key',
+        config_parameter='manajemen_piutang.xendit_secret_api_key'
+    )
+
+    xendit_webhook_token = fields.Char(
+        string='Xendit Callback Token',
+        config_parameter='manajemen_piutang.xendit_webhook_token'
+    )

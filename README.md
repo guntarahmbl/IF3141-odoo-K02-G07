@@ -104,3 +104,43 @@ Untuk melanjutkan pengerjaan dari hasil perubahan database rekan tim, lakukan im
   ```bat
   scripts\import_db.cmd
   ```
+
+## Kontrak Payment Gateway
+
+### Field `Tagihan` yang dipakai 
+
+- `status_lunas`: sumber kebenaran untuk status belum/lunas.
+- `link_payment`: URL invoice Xendit yang dikirim ke pelanggan.
+- `xendit_invoice_id`: ID invoice yang dikembalikan Xendit.
+- `xendit_external_id`: external ID internal untuk mencocokkan callback webhook.
+- `pembayaran_ids`: relasi riwayat pembayaran (model `manajemen_piutang.pembayaran`).
+
+### Alur Invoice
+
+1. Pengguna klik `Kirim E-Invoice` pada form Tagihan.
+2. Odoo memanggil API Xendit untuk membuat invoice dan menyimpan `link_payment`.
+3. Pelanggan membayar melalui link Xendit yang dibuat.
+4. Xendit mengirim webhook ke `/xendit/webhook`.
+5. Odoo mengubah `status_lunas` menjadi `lunas` dan membuat record `pembayaran`.
+
+### Kontrak Webhook
+
+- Endpoint: `/xendit/webhook`
+- Header wajib: `x-callback-token`
+- Event yang didukung:
+	- `Invoices paid`
+	- `Invoices expired`
+	- `FVA paid` (jika menggunakan Virtual Account)
+	- `E-Wallet Payment Status` (untuk QRIS/OVO/Dana/ShopeePay jika diperlukan)
+	- `QR code paid` (jika menampilkan QRIS)
+
+### Pemetaan payload yang dipakai handler
+
+- `id` atau `data.id` → ID invoice Xendit.
+- `external_id` atau `data.external_id` → external ID internal untuk pencocokan.
+- `status` atau `data.status` → menentukan event `PAID`/`EXPIRED` jika tersedia.
+- `paid_amount`, `amount`, atau `data.paid_amount` → jumlah yang diterima.
+- `payment_id` → dianggap sinyal pembayaran (sering muncul pada FVA).
+- `expired_at` → dianggap sinyal kadaluarsa.
+
+

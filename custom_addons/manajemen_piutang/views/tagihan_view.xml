@@ -28,10 +28,12 @@
                         <group>
                             <field name="konsumen_id"/>
                             <field name="tgl_terbit"/>
+                            <field name="xendit_external_id" readonly="1"/>
                         </group>
                         <group>
                             <field name="tgl_jatuh_tempo"/>
                             <field name="total_tagihan"/>
+                            <field name="xendit_invoice_id" readonly="1"/>
                         </group>
                     </group>
                     <notebook>
@@ -40,6 +42,16 @@
                         </page>
                         <page string="Link Pembayaran">
                             <field name="link_payment" widget="url"/>
+                        </page>
+                        <page string="Riwayat Pembayaran">
+                            <field name="pembayaran_ids">
+                                <tree editable="bottom">
+                                    <field name="id_transaksi"/>
+                                    <field name="nominal_masuk"/>
+                                    <field name="waktu_bayar"/>
+                                    <field name="status_settlement"/>
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </sheet>
