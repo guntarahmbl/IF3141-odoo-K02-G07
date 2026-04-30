@@ -4,12 +4,34 @@
         <field name="name">manajemen.kunjungan.tree</field>
         <field name="model">manajemen_piutang.kunjungan</field>
         <field name="arch" type="xml">
-            <tree string="Daftar Kunjungan Fisik">
+            <tree string="Daftar Kunjungan Fisik" default_order="tgl_kunjungan desc">
                 <field name="tagihan_id"/>
+                <field name="nama_pelanggan"/>
+                <field name="total_tagihan" sum="Total Nominal"/>
                 <field name="nama_staf"/>
                 <field name="tgl_kunjungan"/>
-                <field name="status_kunjungan"/>
+                <field name="status_kunjungan" widget="badge" decoration-success="status_kunjungan == 'berhasil'" decoration-danger="status_kunjungan == 'gagal'"/>
             </tree>
+        </field>
+    </record>
+
+    <record id="view_manajemen_kunjungan_search" model="ir.ui.view">
+        <field name="name">manajemen.kunjungan.search</field>
+        <field name="model">manajemen_piutang.kunjungan</field>
+        <field name="arch" type="xml">
+            <search string="Cari Laporan Kunjungan">
+                <field name="tagihan_id"/>
+                <field name="nama_pelanggan"/>
+                <field name="nama_staf"/>
+                <separator/>
+                <filter string="Kunjungan Berhasil" name="filter_berhasil" domain="[('status_kunjungan', '=', 'berhasil')]"/>
+                <filter string="Kunjungan Gagal" name="filter_gagal" domain="[('status_kunjungan', '=', 'gagal')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Staff Penagihan" name="group_by_staf" context="{'group_by': 'nama_staf'}"/>
+                    <filter string="Status" name="group_by_status" context="{'group_by': 'status_kunjungan'}"/>
+                    <filter string="Bulan" name="group_by_bulan" context="{'group_by': 'tgl_kunjungan:month'}"/>
+                </group>
+            </search>
         </field>
     </record>
 
@@ -20,18 +42,20 @@
             <form string="Input Laporan Kunjungan">
                 <sheet>
                     <group>
-                        <group>
+                        <group string="Referensi Piutang">
                             <field name="tagihan_id" options="{'no_create': True}"/>
-                            <field name="nama_staf"/>
+                            <field name="nama_pelanggan"/>
+                            <field name="total_tagihan"/>
                         </group>
-                        <group>
+                        <group string="Laporan Lapangan">
                             <field name="tgl_kunjungan"/>
+                            <field name="nama_staf"/>
                             <field name="status_kunjungan"/>
                         </group>
                     </group>
                     <group>
-                        <field name="hasil_kunjungan" placeholder="Kesimpulan singkat (Misal: Janji bayar besok, Rumah kosong, dll)"/>
-                        <field name="catatan" placeholder="Detail kronologi negosiasi..."/>
+                        <field name="hasil_kunjungan"/>
+                        <field name="catatan"/>
                     </group>
                 </sheet>
             </form>
@@ -42,5 +66,11 @@
         <field name="name">Eskalasi Penagihan</field>
         <field name="res_model">manajemen_piutang.kunjungan</field>
         <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_manajemen_kunjungan_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Belum ada laporan kunjungan lapangan.
+            </p>
+        </field>
     </record>
 </odoo>

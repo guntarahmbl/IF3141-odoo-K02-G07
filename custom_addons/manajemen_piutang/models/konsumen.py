@@ -3,6 +3,7 @@ from odoo import models, fields, api
 class Konsumen(models.Model):
     _name = 'manajemen_piutang.konsumen'
     _description = 'Data Master Konsumen'
+    _rec_name = 'nama_pelanggan'
 
     nama_pelanggan = fields.Char(string='Nama Pelanggan', required=True)
     no_wa = fields.Char(string='Nomor WhatsApp', required=True, help="Gunakan format 628...")

@@ -1,14 +1,14 @@
 from uuid import uuid4
-
 import requests
-
-from odoo import models, fields
+from datetime import date, timedelta
+from odoo import models, fields, api
 from odoo.exceptions import UserError
 
 class Tagihan(models.Model):
     _name = 'manajemen_piutang.tagihan'
     _description = 'Data Tagihan & Piutang'
 
+    _rec_name = 'xendit_external_id'
 
     konsumen_id = fields.Many2one('manajemen_piutang.konsumen', string='Pelanggan', required=True, ondelete='restrict')
     pembayaran_ids = fields.One2many('manajemen_piutang.pembayaran', 'tagihan_id', string='Riwayat Pembayaran')
@@ -27,8 +27,20 @@ class Tagihan(models.Model):
     xendit_invoice_id = fields.Char(string='Xendit Invoice ID', readonly=True, copy=False)
     xendit_external_id = fields.Char(string='Xendit External ID', readonly=True, copy=False)
 
+    is_eskalasi = fields.Boolean(string='Perlu Eskalasi', compute='_compute_eskalasi', store=True)
+
+    @api.depends('tgl_jatuh_tempo', 'status_lunas')
+    def _compute_eskalasi(self):
+        limit_hari = self.env['ir.config_parameter'].sudo().get_param('manajemen_piutang.hari_toleransi_eskalasi', 0)
+        today = date.today()
+        for rec in self:
+            if rec.status_lunas == 'belum_lunas' and rec.tgl_jatuh_tempo:
+                deadline = rec.tgl_jatuh_tempo + timedelta(days=int(limit_hari))
+                rec.is_eskalasi = today > deadline
+            else:
+                rec.is_eskalasi = False
+
     def generateInvoice(self):
-        """Dipanggil saat tombol 'Kirim E-Invoice' di klik pada layar UI"""
         params = self.env['ir.config_parameter'].sudo()
         secret_key = params.get_param('manajemen_piutang.xendit_secret_api_key')
 
@@ -64,9 +76,6 @@ class Tagihan(models.Model):
             record.xendit_invoice_id = result.get('id')
             record.xendit_external_id = external_id
             
-
-            
     def reconcilePayment(self):
-        """Dipanggil oleh WebhookPaymentAPI saat konsumen selesai membayar"""
         for record in self:
             record.status_lunas = 'lunas'
