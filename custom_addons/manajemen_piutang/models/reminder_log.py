@@ -25,6 +25,8 @@ class ReminderLog(models.Model):
     jenis_pengingat = fields.Selection([
         ('h_minus_3', 'H-3 (3 Hari Sebelum Jatuh Tempo)'),
         ('h_minus_1', 'H-1 (1 Hari Sebelum Jatuh Tempo)'),
+        ('h_0',       'H-0 (Hari Jatuh Tempo)'),
+        ('scheduled', 'Terjadwal dari Pengaturan'),
         ('manual',    'Manual (On-Demand)'),
     ], string='Jenis Pengingat', required=True)
     status_kirim = fields.Selection([

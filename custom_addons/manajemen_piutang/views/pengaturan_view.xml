@@ -14,6 +14,9 @@
                         <setting id="template_wa_setting" string="Template Pesan WhatsApp" help="Gunakan tag {nama} dan {nominal} untuk parameter otomatis.">
                             <field name="template_pesan_wa" widget="text"/>
                         </setting>
+                        <setting id="hari_reminder_setting" string="Jadwal Reminder" help="Jumlah hari sebelum jatuh tempo. Contoh: 3,0 berarti H-3 dan H-0.">
+                            <field name="hari_reminder"/>
+                        </setting>
                         <setting id="xendit_api_key_setting" string="Xendit Secret API Key" help="Digunakan untuk membuat invoice Xendit melalui API.">
                             <field name="xendit_secret_api_key" password="True"/>
                         </setting>

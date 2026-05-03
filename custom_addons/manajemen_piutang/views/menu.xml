@@ -84,4 +84,11 @@
               action="action_manajemen_pengaturan" 
               groups="manajemen_piutang.group_administrator_sistem,manajemen_piutang.group_manajer_keuangan"
               sequence="90"/>
+
+    <menuitem id="menu_piutang_pengaturan_log"
+              name="Log Audit Pengaturan"
+              parent="menu_manajemen_piutang_root"
+              action="action_pengaturan_log"
+              groups="manajemen_piutang.group_administrator_sistem,manajemen_piutang.group_manajer_keuangan"
+              sequence="91"/>
 </odoo>

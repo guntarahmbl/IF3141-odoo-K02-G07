@@ -17,6 +17,7 @@
         'views/kunjungan_view.xml',
         'views/laporan_view.xml',
         'views/pengaturan_view.xml',
+        'views/pengaturan_log_view.xml',
         'views/reminder_log_view.xml',
         'views/menu.xml',
         'data/data_dummy.xml',

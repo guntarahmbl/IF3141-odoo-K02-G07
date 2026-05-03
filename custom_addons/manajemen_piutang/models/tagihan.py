@@ -194,6 +194,35 @@ class Tagihan(models.Model):
             ('tgl_jatuh_tempo', '=', target_date),
         ])
 
+    def _get_reminder_schedule(self):
+        raw_schedule = self.env['ir.config_parameter'].sudo().get_param(
+            'manajemen_piutang.hari_reminder',
+            '3,0',
+        )
+        days = []
+        for raw_day in (raw_schedule or '').split(','):
+            raw_day = raw_day.strip()
+            if not raw_day:
+                continue
+            if not raw_day.isdigit():
+                _logger.warning('Jadwal reminder tidak valid: %s', raw_schedule)
+                continue
+            days.append(int(raw_day))
+
+        if not days:
+            days = [3, 0]
+
+        return [(day, self._get_reminder_type(day)) for day in sorted(set(days), reverse=True)]
+
+    def _get_reminder_type(self, days_before: int) -> str:
+        if days_before == 0:
+            return 'h_0'
+        if days_before == 1:
+            return 'h_minus_1'
+        if days_before == 3:
+            return 'h_minus_3'
+        return 'scheduled'
+
     def run_daily_reminder(self) -> None:
         token = self.env['ir.config_parameter'].sudo().get_param(
             'manajemen_piutang.wa_fonnte_token', ''
@@ -202,10 +231,7 @@ class Tagihan(models.Model):
             _logger.error('Fonnte Token belum dikonfigurasi')
             return
 
-        schedule = [
-            (3, 'h_minus_3'),
-            (1, 'h_minus_1'),
-        ]
+        schedule = self._get_reminder_schedule()
 
         for days_before, jenis_pengingat in schedule:
             tagihan_list = self._get_tagihan_reminder(days_before)
