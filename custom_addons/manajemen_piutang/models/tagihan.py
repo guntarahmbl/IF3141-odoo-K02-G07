@@ -218,18 +218,27 @@ class Tagihan(models.Model):
         if not sukses:
             _logger.warning('Invoice WA gagal dikirim untuk tagihan %s: %s', self.id, keterangan_error)
 
+    def _has_payment_link(self) -> bool:
+        self.ensure_one()
+        return bool(self.xendit_invoice_id or self.link_payment)
+
     def _validate_no_wa(self, no_wa: str) -> bool:
-        if not no_wa or not no_wa.isdigit():
+        if not no_wa:
             return False
-        return no_wa.startswith('62') and 10 <= len(no_wa) <= 15
+
+        normalized = no_wa.lstrip('+')
+        if not normalized.isdigit():
+            return False
+
+        return normalized.startswith('62') and 10 <= len(normalized) <= 15
 
     def _render_pesan(self, tagihan, days_before: int) -> str:
         params = self.env['ir.config_parameter'].sudo()
         template = params.get_param('manajemen_piutang.template_pesan_wa', '')
         if not template:
             template = (
-                'Halo {nama}, tagihan Anda sebesar Rp {nominal} akan jatuh tempo pada '
-                '{jatuh_tempo}. Mohon segera melakukan pembayaran.'
+                'Halo {nama}, tagihan Anda sebesar Rp {nominal} akan jatuh tempo pada tanggal '
+                '{jatuh_tempo}. Mohon segera melakukan pelunasan.'
             )
 
         nama = tagihan.konsumen_id.nama_pelanggan
@@ -246,8 +255,9 @@ class Tagihan(models.Model):
     def _send_via_wa(self, no_wa: str, pesan: str, token: str) -> tuple:
         url = 'https://api.fonnte.com/send'
         headers = {'Authorization': token}
+        normalized_no_wa = no_wa.lstrip('+')
         payload = {
-            'target': no_wa,
+            'target': normalized_no_wa,
             'message': pesan,
             'countryCode': '62',
         }
@@ -337,6 +347,18 @@ class Tagihan(models.Model):
                     if self._is_duplicate_log(tagihan, jenis_pengingat):
                         continue
 
+                    if not tagihan._has_payment_link():
+                        self._buat_reminder_log(
+                            tagihan, jenis_pengingat, '',
+                            'gagal',
+                            'Link pembayaran belum tersedia. Generate invoice terlebih dulu.',
+                        )
+                        _logger.warning(
+                            'Reminder WA tidak dikirim untuk tagihan %s karena link pembayaran belum tersedia',
+                            tagihan.id,
+                        )
+                        continue
+
                     no_wa = tagihan.konsumen_id.no_wa or ''
                     if not self._validate_no_wa(no_wa):
                         self._buat_reminder_log(
@@ -360,6 +382,9 @@ class Tagihan(models.Model):
                     )
 
     def kirim_reminder_wa(self) -> dict:
+        if not self._has_payment_link():
+            raise UserError('Link pembayaran belum tersedia. Generate invoice terlebih dulu.')
+
         if self.status_lunas == 'lunas':
             raise UserError('Tagihan sudah lunas, tidak perlu mengirim reminder.')
 

@@ -11,7 +11,7 @@
                         <setting id="hari_toleransi_setting" string="Batas Toleransi Eskalasi" help="Jumlah hari setelah jatuh tempo sebelum tagihan masuk ke daftar eskalasi fisik staf lapangan.">
                             <field name="hari_toleransi_eskalasi"/>
                         </setting>
-                        <setting id="template_wa_setting" string="Template Pesan WhatsApp" help="Gunakan tag {nama} dan {nominal} untuk parameter otomatis.">
+                        <setting id="template_wa_setting" string="Template Pesan WhatsApp" help="Gunakan tag {nama}, {nominal}, dan {jatuh_tempo} untuk parameter otomatis.">
                             <field name="template_pesan_wa" widget="text"/>
                         </setting>
                         <setting id="hari_reminder_setting" string="Jadwal Reminder" help="Jumlah hari sebelum jatuh tempo. Contoh: 3,0 berarti H-3 dan H-0.">
