@@ -5,6 +5,7 @@
         <field name="model">manajemen_piutang.reminder_log</field>
         <field name="arch" type="xml">
             <tree create="false" edit="false" delete="false">
+                <button name="action_open_tagihan" type="object" string="Buka Tagihan" class="btn-link"/>
                 <field name="waktu_kirim" string="Waktu Kirim"/>
                 <field name="tagihan_id" string="Tagihan"/>
                 <field name="konsumen_id" string="Konsumen"/>

@@ -36,3 +36,16 @@ class ReminderLog(models.Model):
     ], string='Status Kirim', required=True)
     pesan_terkirim = fields.Text(string='Pesan yang Dikirim')
     keterangan_error = fields.Char(string='Keterangan Error')
+
+    def action_open_tagihan(self):
+        self.ensure_one()
+        if not self.tagihan_id:
+            return False
+
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'manajemen_piutang.tagihan',
+            'view_mode': 'form',
+            'res_id': self.tagihan_id.id,
+            'target': 'current',
+        }

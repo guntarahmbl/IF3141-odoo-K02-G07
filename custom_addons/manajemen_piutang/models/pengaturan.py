@@ -30,7 +30,7 @@ class ResConfigSettings(models.TransientModel):
     template_pesan_wa = fields.Char(
         string='Template Pesan WhatsApp',
         config_parameter='manajemen_piutang.template_pesan_wa',
-        default='Halo {nama}, tagihan Anda sebesar Rp {nominal} telah jatuh tempo. Mohon segera melakukan pelunasan.'
+        default='Halo {nama}, tagihan Anda sebesar Rp {nominal} akan jatuh tempo pada tanggal {jatuh_tempo}. Mohon segera melakukan pelunasan.'
     )
 
     hari_reminder = fields.Char(
