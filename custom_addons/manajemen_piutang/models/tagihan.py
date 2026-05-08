@@ -89,14 +89,8 @@ class Tagihan(models.Model):
             raise UserError('Xendit Secret API Key belum diisi. Buka Settings > Manajemen Piutang untuk mengisi kredensial Xendit.')
 
         callback_base_url = (params.get_param('web.base.url') or '').rstrip('/')
-        processed_existing_invoice = False
 
         for record in self:
-            if record.xendit_invoice_id and record.link_payment:
-                processed_existing_invoice = True
-                record._send_invoice_wa_after_xendit_create()
-                continue
-
             external_id = f"INV-{record.id}-{uuid4().hex[:8]}"
             payload = {
                 'external_id': external_id,
@@ -161,8 +155,6 @@ class Tagihan(models.Model):
             record._send_invoice_wa_after_xendit_create()
 
         message = 'Link pembayaran Xendit berhasil dibuat dan data tagihan akan dimuat ulang.'
-        if processed_existing_invoice:
-            message = 'Tagihan sudah memiliki link Xendit. Data tagihan akan dimuat ulang.'
 
         return {
             'type': 'ir.actions.client',

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_api_health_tree" model="ir.ui.view">
+        <field name="name">manajemen_piutang.api_health.tree</field>
+        <field name="model">manajemen_piutang.api_health</field>
+        <field name="arch" type="xml">
+            <tree create="false" edit="false" delete="false" default_order="last_check desc">
+                <header>
+                    <button name="action_check_all" string="Check All" type="object" class="oe_highlight" display="always"/>
+                    <button name="action_check_xendit" string="Check Xendit" type="object" display="always"/>
+                    <button name="action_check_callback" string="Check Callback" type="object" display="always"/>
+                    <button name="action_check_fonnte" string="Check Fonnte" type="object" display="always"/>
+                </header>
+                <field name="last_check" string="Waktu Check"/>
+                <field name="service" string="Service"/>
+                <field name="status" string="Status"
+                       widget="badge"
+                       decoration-success="status == 'ok'"
+                       decoration-danger="status == 'failed'"/>
+                <field name="http_status" string="HTTP Status"/>
+                <field name="response_time_ms" string="Response (ms)"/>
+                <field name="message" string="Pesan"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_api_health_form" model="ir.ui.view">
+        <field name="name">manajemen_piutang.api_health.form</field>
+        <field name="model">manajemen_piutang.api_health</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false" delete="false">
+                <header>
+                    <button name="action_check_all" string="Check All" type="object" class="oe_highlight"/>
+                    <button name="action_check_xendit" string="Check Xendit" type="object"/>
+                    <button name="action_check_callback" string="Check Callback" type="object"/>
+                    <button name="action_check_fonnte" string="Check Fonnte" type="object"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="last_check" string="Waktu Check"/>
+                        <field name="service" string="Service"/>
+                        <field name="status" string="Status"/>
+                        <field name="http_status" string="HTTP Status"/>
+                        <field name="response_time_ms" string="Response Time (ms)"/>
+                    </group>
+                    <group>
+                        <field name="message" string="Pesan" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_api_health_search" model="ir.ui.view">
+        <field name="name">manajemen_piutang.api_health.search</field>
+        <field name="model">manajemen_piutang.api_health</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="service"/>
+                <field name="status"/>
+                <filter string="OK" name="filter_ok" domain="[('status', '=', 'ok')]"/>
+                <filter string="Failed" name="filter_failed" domain="[('status', '=', 'failed')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Service" name="group_by_service" context="{'group_by': 'service'}"/>
+                    <filter string="Status" name="group_by_status" context="{'group_by': 'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_api_health" model="ir.actions.act_window">
+        <field name="name">API Health Monitoring</field>
+        <field name="res_model">manajemen_piutang.api_health</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_api_health_search"/>
+    </record>
+</odoo>

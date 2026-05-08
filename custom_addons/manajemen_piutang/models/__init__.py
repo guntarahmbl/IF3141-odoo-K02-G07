@@ -6,3 +6,4 @@ from . import pembayaran
 from . import reminder_log
 from . import dashboard_tagihan
 from . import dashboard_penerimaan
+from . import api_health

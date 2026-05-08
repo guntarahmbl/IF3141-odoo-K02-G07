@@ -91,4 +91,11 @@
               action="action_pengaturan_log"
               groups="manajemen_piutang.group_administrator_sistem,manajemen_piutang.group_manajer_keuangan"
               sequence="91"/>
+
+    <menuitem id="menu_piutang_api_health"
+              name="API Health Monitoring"
+              parent="menu_manajemen_piutang_root"
+              action="action_api_health"
+              groups="manajemen_piutang.group_administrator_sistem,manajemen_piutang.group_manajer_keuangan"
+              sequence="92"/>
 </odoo>

@@ -9,15 +9,55 @@ _logger = logging.getLogger(__name__)
 
 class XenditWebhookController(http.Controller):
 
-    @http.route('/xendit/webhook/status', type='http', auth='public', methods=['GET'], csrf=False)
-    def xendit_webhook_status(self, **kwargs):
-        expected_token = request.env['ir.config_parameter'].sudo().get_param(
-            'manajemen_piutang.xendit_webhook_token'
-        )
+    @http.route('/xendit/webhook/health', type='http', auth='public', methods=['GET'], csrf=False)
+    def xendit_webhook_health(self, **kwargs):
+        params = request.env['ir.config_parameter'].sudo()
+        expected_token = params.get_param('manajemen_piutang.xendit_webhook_token')
+        callback_token = request.httprequest.headers.get('x-callback-token')
+
+        if not expected_token:
+            return request.make_json_response({
+                'success': False,
+                'service': 'xendit_callback',
+                'configured': False,
+                'connected': False,
+                'message': 'callback token not configured',
+            }, status=503)
+
+        if callback_token != expected_token:
+            return request.make_json_response({
+                'success': False,
+                'service': 'xendit_callback',
+                'configured': True,
+                'connected': False,
+                'message': 'unauthorized',
+            }, status=401)
+
         return request.make_json_response({
             'success': True,
+            'service': 'xendit_callback',
+            'configured': True,
+            'connected': True,
+            'message': 'callback endpoint healthy',
+        }, status=200)
+
+    @http.route('/xendit/webhook/status', type='http', auth='public', methods=['GET'], csrf=False)
+    def xendit_webhook_status(self, **kwargs):
+        params = request.env['ir.config_parameter'].sudo()
+        expected_token = params.get_param(
+            'manajemen_piutang.xendit_webhook_token'
+        )
+        result = request.env['manajemen_piutang.api_health'].sudo().run_xendit_check()
+
+        return request.make_json_response({
+            'success': result['success'],
             'service': 'xendit_webhook',
             'configured': bool(expected_token),
+            'connected': result['success'],
+            'http_status': result['http_status'],
+            'response_time_ms': result['response_time_ms'],
+            'message': result['message'],
+            'last_check': result['last_check'],
         }, status=200)
 
     @http.route('/xendit/webhook', type='http', auth='public', methods=['POST'], csrf=False)
