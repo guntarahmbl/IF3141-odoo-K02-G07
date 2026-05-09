@@ -85,17 +85,31 @@
               groups="manajemen_piutang.group_administrator_sistem,manajemen_piutang.group_manajer_keuangan"
               sequence="90"/>
 
+    <menuitem id="menu_piutang_rbac_users"
+              name="User &amp; Role"
+              parent="menu_manajemen_piutang_root"
+              action="action_piutang_rbac_users"
+              groups="manajemen_piutang.group_administrator_sistem"
+              sequence="91"/>
+
+    <menuitem id="menu_piutang_rbac_groups"
+              name="Role &amp; Hak Akses"
+              parent="menu_manajemen_piutang_root"
+              action="action_piutang_rbac_groups"
+              groups="manajemen_piutang.group_administrator_sistem"
+              sequence="92"/>
+
     <menuitem id="menu_piutang_pengaturan_log"
               name="Log Audit Pengaturan"
               parent="menu_manajemen_piutang_root"
               action="action_pengaturan_log"
               groups="manajemen_piutang.group_administrator_sistem,manajemen_piutang.group_manajer_keuangan"
-              sequence="91"/>
+              sequence="93"/>
 
     <menuitem id="menu_piutang_api_health"
               name="API Health Monitoring"
               parent="menu_manajemen_piutang_root"
               action="action_api_health"
               groups="manajemen_piutang.group_administrator_sistem,manajemen_piutang.group_manajer_keuangan"
-              sequence="92"/>
+              sequence="94"/>
 </odoo>

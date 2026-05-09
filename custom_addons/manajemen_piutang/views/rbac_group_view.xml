@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_piutang_rbac_group_tree" model="ir.ui.view">
+        <field name="name">manajemen_piutang.rbac.group.tree</field>
+        <field name="model">res.groups</field>
+        <field name="arch" type="xml">
+            <tree string="Role &amp; Hak Akses" create="true" edit="true" delete="false">
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="users" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_piutang_rbac_group_form" model="ir.ui.view">
+        <field name="name">manajemen_piutang.rbac.group.form</field>
+        <field name="model">res.groups</field>
+        <field name="arch" type="xml">
+            <form string="Role &amp; Hak Akses">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="category_id"/>
+                        <field name="implied_ids" widget="many2many_tags"/>
+                    </group>
+                    <notebook>
+                        <page string="User">
+                            <field name="users" widget="many2many_tags"/>
+                        </page>
+                        <page string="Akses Model">
+                            <field name="model_access">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="model_id" domain="[('model', 'like', 'manajemen_piutang.%')]"/>
+                                    <field name="perm_read"/>
+                                    <field name="perm_write"/>
+                                    <field name="perm_create"/>
+                                    <field name="perm_unlink"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Record Rules">
+                            <field name="rule_groups">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="model_id" domain="[('model', 'like', 'manajemen_piutang.%')]"/>
+                                    <field name="domain_force"/>
+                                    <field name="perm_read"/>
+                                    <field name="perm_write"/>
+                                    <field name="perm_create"/>
+                                    <field name="perm_unlink"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Menu">
+                            <field name="piutang_menu_candidate_ids" invisible="1"/>
+                            <field name="menu_access"
+                                   widget="many2many_tags"
+                                   domain="[('id', 'in', piutang_menu_candidate_ids)]"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_piutang_rbac_group_search" model="ir.ui.view">
+        <field name="name">manajemen_piutang.rbac.group.search</field>
+        <field name="model">res.groups</field>
+        <field name="arch" type="xml">
+            <search string="Cari Role">
+                <field name="name"/>
+                <field name="category_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_piutang_rbac_groups" model="ir.actions.act_window">
+        <field name="name">Role &amp; Hak Akses</field>
+        <field name="res_model">res.groups</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_piutang_rbac_group_tree"/>
+        <field name="search_view_id" ref="view_piutang_rbac_group_search"/>
+        <field name="domain" eval="[('category_id', '=', ref('manajemen_piutang.module_category_manajemen_piutang'))]"/>
+        <field name="context" eval="{'default_category_id': ref('manajemen_piutang.module_category_manajemen_piutang')}"/>
+    </record>
+</odoo>

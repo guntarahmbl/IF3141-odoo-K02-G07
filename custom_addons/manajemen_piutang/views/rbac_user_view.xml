@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_piutang_rbac_user_tree" model="ir.ui.view">
+        <field name="name">manajemen_piutang.rbac.user.tree</field>
+        <field name="model">res.users</field>
+        <field name="arch" type="xml">
+            <tree string="Role-Based Access Control" create="true" edit="true" delete="false" editable="bottom">
+                <header>
+                    <button name="%(action_piutang_rbac_groups)d"
+                            string="Atur Hak Akses Role"
+                            type="action"
+                            class="oe_highlight"
+                            display="always"/>
+                </header>
+                <field name="name"/>
+                <field name="login"/>
+                <field name="role_piutang"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_piutang_rbac_user_form" model="ir.ui.view">
+        <field name="name">manajemen_piutang.rbac.user.form</field>
+        <field name="model">res.users</field>
+        <field name="arch" type="xml">
+            <form string="Pengaturan Role-Based Access Control">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="login"/>
+                            <field name="password" password="True"/>
+                        </group>
+                        <group>
+                            <field name="role_piutang"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_piutang_rbac_user_search" model="ir.ui.view">
+        <field name="name">manajemen_piutang.rbac.user.search</field>
+        <field name="model">res.users</field>
+        <field name="arch" type="xml">
+            <search string="Cari User RBAC">
+                <field name="name"/>
+                <field name="login"/>
+                <filter string="Aktif" name="filter_active" domain="[('active', '=', True)]"/>
+                <filter string="Tidak Aktif" name="filter_inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_piutang_rbac_users" model="ir.actions.act_window">
+        <field name="name">Role-Based Access Control</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_piutang_rbac_user_tree"/>
+        <field name="search_view_id" ref="view_piutang_rbac_user_search"/>
+        <field name="context">{'active_test': False, 'search_default_filter_active': 1}</field>
+    </record>
+</odoo>
