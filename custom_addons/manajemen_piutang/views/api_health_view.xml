@@ -29,12 +29,6 @@
         <field name="model">manajemen_piutang.api_health</field>
         <field name="arch" type="xml">
             <form create="false" edit="false" delete="false">
-                <header>
-                    <button name="action_check_all" string="Check All" type="object" class="oe_highlight"/>
-                    <button name="action_check_xendit" string="Check Xendit" type="object"/>
-                    <button name="action_check_callback" string="Check Callback" type="object"/>
-                    <button name="action_check_fonnte" string="Check Fonnte" type="object"/>
-                </header>
                 <sheet>
                     <group>
                         <field name="last_check" string="Waktu Check"/>
@@ -73,5 +67,6 @@
         <field name="res_model">manajemen_piutang.api_health</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="view_api_health_search"/>
+        <field name="limit">20</field>
     </record>
 </odoo>
