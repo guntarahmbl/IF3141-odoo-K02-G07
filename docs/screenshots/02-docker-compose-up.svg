@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <rect width="1200" height="720" fill="#f6f8fb"/>
+  <rect x="90" y="80" width="1020" height="560" rx="8" fill="#0f172a"/>
+  <rect x="90" y="80" width="1020" height="44" rx="8" fill="#020617"/>
+  <text x="120" y="176" fill="#e5e7eb" font-family="Consolas, monospace" font-size="24">PS&gt; docker compose up -d</text>
+  <text x="120" y="232" fill="#93c5fd" font-family="Consolas, monospace" font-size="22">Container if3141-odoo-k02-g07-db-1   Started</text>
+  <text x="120" y="276" fill="#93c5fd" font-family="Consolas, monospace" font-size="22">Container if3141-odoo-k02-g07-web-1  Started</text>
+  <text x="120" y="342" fill="#ffffff" font-family="Arial, sans-serif" font-size="30" font-weight="700">Expected result</text>
+  <text x="120" y="386" fill="#d1d5db" font-family="Arial, sans-serif" font-size="24">Service Odoo berjalan pada port 8069 dan PostgreSQL berjalan di container db.</text>
+  <rect x="120" y="445" width="300" height="88" rx="6" fill="#172554"/>
+  <text x="148" y="480" fill="#bfdbfe" font-family="Arial, sans-serif" font-size="22">web</text>
+  <text x="148" y="512" fill="#ffffff" font-family="Arial, sans-serif" font-size="20">0.0.0.0:8069</text>
+  <rect x="450" y="445" width="300" height="88" rx="6" fill="#14532d"/>
+  <text x="478" y="480" fill="#bbf7d0" font-family="Arial, sans-serif" font-size="22">db</text>
+  <text x="478" y="512" fill="#ffffff" font-family="Arial, sans-serif" font-size="20">postgres:16-alpine</text>
+</svg>

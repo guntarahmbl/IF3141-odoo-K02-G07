@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <rect width="1200" height="720" fill="#f6f8fb"/>
+  <rect x="90" y="80" width="1020" height="560" rx="8" fill="#1f2937"/>
+  <rect x="90" y="80" width="1020" height="44" rx="8" fill="#111827"/>
+  <circle cx="120" cy="102" r="7" fill="#ef4444"/>
+  <circle cx="144" cy="102" r="7" fill="#f59e0b"/>
+  <circle cx="168" cy="102" r="7" fill="#22c55e"/>
+  <text x="120" y="180" fill="#d1d5db" font-family="Consolas, monospace" font-size="24">PS&gt; git clone https://github.com/guntarahmbl/IF3141-odoo-K02-G07.git</text>
+  <text x="120" y="226" fill="#9ca3af" font-family="Consolas, monospace" font-size="22">Cloning into 'IF3141-odoo-K02-G07'...</text>
+  <text x="120" y="272" fill="#9ca3af" font-family="Consolas, monospace" font-size="22">Receiving objects: 100% done</text>
+  <text x="120" y="318" fill="#d1d5db" font-family="Consolas, monospace" font-size="24">PS&gt; cd IF3141-odoo-K02-G07</text>
+  <text x="120" y="390" fill="#ffffff" font-family="Arial, sans-serif" font-size="30" font-weight="700">Expected result</text>
+  <text x="120" y="432" fill="#d1d5db" font-family="Arial, sans-serif" font-size="24">Folder repository berhasil dibuat dan terminal berada di root proyek.</text>
+</svg>
